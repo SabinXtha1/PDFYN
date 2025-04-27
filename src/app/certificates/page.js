@@ -4,15 +4,50 @@ import { useRef, useState, useEffect } from "react"
 import jsPDF from "jspdf"
 import html2canvasPro from "html2canvas-pro"
 import Image from "next/image"
-import { Download, Upload, Calendar, FileText, User, Building, Briefcase, Users, MapPin, Printer } from "lucide-react"
-import { BackgroundBeams } from "./ui/background-beams"
-import { CardHoverEffect } from "./ui/card-hover-effect"
-import { AnimatedButton } from "./ui/animated-button"
-
-import { HoverBorderGradient } from "./ui/hover-border-gradient"
+import {
+  Download,
+  Upload,
+  Calendar,
+  FileText,
+  User,
+  Building,
+  Briefcase,
+  Users,
+  MapPin,
+  Printer,
+  Award,
+  GraduationCap,
+  Medal,
+  BadgeIcon as Certificate,
+  Star,
+  Check,
+  Trophy,
+  BookOpen,
+  Layers,
+} from "lucide-react"
+import { BackgroundBeams } from "../../component/ui/background-beams"
+import { CardHoverEffect } from "../../component/ui/card-hover-effect"
+import { AnimatedButton } from "../../component/ui/animated-button"
+import { TextRevealCard } from "../../component/ui/text-reveal-card"
+import { HoverBorderGradient } from "../../component/ui/hover-border-gradient"
+import { TemplateSelector } from "../../component/ui/template-selector"
 import { cn } from "@/lib/utils"
 
-const PDFGenerator = () => {
+// Import certificate templates
+import {
+  EmploymentCertificate,
+  AchievementCertificate,
+  TrainingCertificate,
+  AcademicCertificate,
+  AwardCertificate,
+  ParticipationCertificate,
+  AppreciationCertificate,
+  CourseCompletionCertificate,
+  MembershipCertificate,
+  ProfessionalCertificate,
+} from "./index.js"
+
+const Page = () => {
   const contentRef = useRef(null)
   const [mounted, setMounted] = useState(false)
 
@@ -28,10 +63,39 @@ const PDFGenerator = () => {
     authorizer: "",
     companyAddress: "",
     date: "",
+    // Additional fields for other certificate types
+    achievementTitle: "",
+    trainingName: "",
+    courseName: "",
+    duration: "",
+    grade: "",
+    institution: "",
+    eventName: "",
+    awardTitle: "",
+    membershipType: "",
+    membershipId: "",
+    expiryDate: "",
+    certificationTitle: "",
+    certificationId: "",
   })
 
   const [image, setImage] = useState(null)
   const [isGenerating, setIsGenerating] = useState(false)
+  const [selectedTemplate, setSelectedTemplate] = useState("employment")
+
+  // Template options
+  const templateOptions = [
+    { id: "employment", name: "Employment Certificate", icon: <Briefcase size={18} /> },
+    { id: "achievement", name: "Achievement Certificate", icon: <Trophy size={18} /> },
+    { id: "training", name: "Training Certificate", icon: <BookOpen size={18} /> },
+    { id: "academic", name: "Academic Certificate", icon: <GraduationCap size={18} /> },
+    { id: "award", name: "Award Certificate", icon: <Award size={18} /> },
+    { id: "participation", name: "Participation Certificate", icon: <Users size={18} /> },
+    { id: "appreciation", name: "Appreciation Certificate", icon: <Star size={18} /> },
+    { id: "course", name: "Course Completion", icon: <Check size={18} /> },
+    { id: "membership", name: "Membership Certificate", icon: <Medal size={18} /> },
+    { id: "professional", name: "Professional Certification", icon: <Certificate size={18} /> },
+  ]
 
   useEffect(() => {
     setMounted(true)
@@ -81,7 +145,7 @@ const PDFGenerator = () => {
         backgroundColor: "#fff",
         width: a4Width,
         height: a4Height,
-        logging: true, // Enable logging for debugging
+        logging: false, // Disable logging
         imageTimeout: 15000, // Longer timeout for images
         onclone: (clonedDoc) => {
           // Any modifications to the cloned document before rendering
@@ -90,7 +154,6 @@ const PDFGenerator = () => {
             // Ensure all styles are computed and applied
             clonedElement.style.width = `${a4Width}px`
             clonedElement.style.height = `${a4Height}px`
-            clonedElement.style.overflow = "visible" // Make sure overflow content is visible
           }
         },
       })
@@ -108,7 +171,7 @@ const PDFGenerator = () => {
       const pdfHeight = 297
 
       pdf.addImage(imgData, "PNG", 0, 0, pdfWidth, pdfHeight)
-      pdf.save("employment_certificate.pdf")
+      pdf.save(`${selectedTemplate}_certificate.pdf`)
     } catch (error) {
       console.error("Error generating PDF:", error)
       alert("There was an error generating the PDF. Please try again.")
@@ -140,10 +203,12 @@ const PDFGenerator = () => {
       case "joiningDate":
       case "lastWorkingDate":
       case "date":
+      case "expiryDate":
         return <Calendar size={18} className="text-blue-400" />
       case "designation":
         return <Briefcase size={18} className="text-blue-400" />
       case "companyName":
+      case "institution":
         return <Building size={18} className="text-blue-400" />
       case "departments":
       case "roles":
@@ -152,6 +217,24 @@ const PDFGenerator = () => {
         return <FileText size={18} className="text-blue-400" />
       case "companyAddress":
         return <MapPin size={18} className="text-blue-400" />
+      case "achievementTitle":
+      case "awardTitle":
+        return <Trophy size={18} className="text-blue-400" />
+      case "trainingName":
+      case "courseName":
+        return <BookOpen size={18} className="text-blue-400" />
+      case "grade":
+        return <Star size={18} className="text-blue-400" />
+      case "membershipType":
+      case "membershipId":
+      case "certificationId":
+        return <Certificate size={18} className="text-blue-400" />
+      case "certificationTitle":
+        return <Award size={18} className="text-blue-400" />
+      case "eventName":
+        return <Layers size={18} className="text-blue-400" />
+      case "duration":
+        return <Calendar size={18} className="text-blue-400" />
       default:
         return <FileText size={18} className="text-blue-400" />
     }
@@ -188,157 +271,153 @@ const PDFGenerator = () => {
     )
   }
 
+  // Get fields based on selected template
+  const getTemplateFields = () => {
+    switch (selectedTemplate) {
+      case "employment":
+        return [
+          "employeeName",
+          "gender",
+          "joiningDate",
+          "lastWorkingDate",
+          "designation",
+          "companyName",
+          "departments",
+          "authorizer",
+          "companyAddress",
+          "date",
+        ]
+      case "achievement":
+        return ["employeeName", "gender", "achievementTitle", "companyName", "date", "authorizer"]
+      case "training":
+        return ["employeeName", "gender", "trainingName", "duration", "companyName", "date", "authorizer"]
+      case "academic":
+        return ["employeeName", "gender", "courseName", "grade", "institution", "date", "authorizer"]
+      case "award":
+        return ["employeeName", "gender", "awardTitle", "companyName", "date", "authorizer"]
+      case "participation":
+        return ["employeeName", "gender", "eventName", "duration", "companyName", "date", "authorizer"]
+      case "appreciation":
+        return ["employeeName", "gender", "roles", "companyName", "date", "authorizer"]
+      case "course":
+        return ["employeeName", "gender", "courseName", "duration", "grade", "institution", "date", "authorizer"]
+      case "membership":
+        return [
+          "employeeName",
+          "gender",
+          "membershipType",
+          "membershipId",
+          "companyName",
+          "date",
+          "expiryDate",
+          "authorizer",
+        ]
+      case "professional":
+        return [
+          "employeeName",
+          "gender",
+          "certificationTitle",
+          "certificationId",
+          "institution",
+          "date",
+          "expiryDate",
+          "authorizer",
+        ]
+      default:
+        return [
+          "employeeName",
+          "gender",
+          "joiningDate",
+          "lastWorkingDate",
+          "designation",
+          "companyName",
+          "departments",
+          "authorizer",
+          "companyAddress",
+          "date",
+        ]
+    }
+  }
+
+  // Render the selected certificate template
+  const renderCertificateTemplate = () => {
+    switch (selectedTemplate) {
+      case "employment":
+        return <EmploymentCertificate formData={formData} image={image} pronouns={pronouns} />
+      case "achievement":
+        return <AchievementCertificate formData={formData} image={image} pronouns={pronouns} />
+      case "training":
+        return <TrainingCertificate formData={formData} image={image} pronouns={pronouns} />
+      case "academic":
+        return <AcademicCertificate formData={formData} image={image} pronouns={pronouns} />
+      case "award":
+        return <AwardCertificate formData={formData} image={image} pronouns={pronouns} />
+      case "participation":
+        return <ParticipationCertificate formData={formData} image={image} pronouns={pronouns} />
+      case "appreciation":
+        return <AppreciationCertificate formData={formData} image={image} pronouns={pronouns} />
+      case "course":
+        return <CourseCompletionCertificate formData={formData} image={image} pronouns={pronouns} />
+      case "membership":
+        return <MembershipCertificate formData={formData} image={image} pronouns={pronouns} />
+      case "professional":
+        return <ProfessionalCertificate formData={formData} image={image} pronouns={pronouns} />
+      default:
+        return <EmploymentCertificate formData={formData} image={image} pronouns={pronouns} />
+    }
+  }
+
   if (!mounted) return null
 
   return (
     <div className="relative p-6 flex flex-col items-center lg:flex-row lg:justify-center gap-10 bg-black min-h-screen overflow-hidden">
       <BackgroundBeams className="absolute inset-0" />
- 
 
       {/* Certificate preview */}
       <div className="flex w-full lg:w-[45%] justify-center z-10">
-        <CardHoverEffect className="w-full" glowColor="rgba(5, 130, 246, 0.5)">
+        <CardHoverEffect className="w-full" glowColor="rgba(59, 130, 246, 0.5)">
           <div className="bg-gray-900/80 backdrop-blur-sm shadow-xl rounded-xl overflow-hidden border border-gray-800">
-            <div className="bg-gradient-to-r from-blue-600 to-violet-600 text-white p-4 flex items-center justify-between">
-              <h2 className="font-medium flex items-center gap-2">
-                <FileText size={18} />
-                Certificate Preview
-              </h2>
-              <div className="flex gap-2">
-                <AnimatedButton
-                  onClick={handlePrint}
-                  disabled={isGenerating}
-                  className={`bg-white text-blue-700 hover:bg-gray-100 px-4 py-2 rounded-md flex items-center gap-2 transition-all duration-200 text-sm font-medium ${
-                    isGenerating ? "opacity-70 cursor-not-allowed" : ""
-                  }`}
-                >
-                  <Printer size={16} />
-                  Print
-                </AnimatedButton>
-                <AnimatedButton
-                  onClick={generatePDF}
-                  disabled={isGenerating}
-                  className={`bg-white text-blue-700 hover:bg-gray-100 px-4 py-2 rounded-md flex items-center gap-2 transition-all duration-200 text-sm font-medium ${
-                    isGenerating ? "opacity-70 cursor-not-allowed" : ""
-                  }`}
-                >
-                  <Download size={16} />
-                  {isGenerating ? "Generating..." : "Download"}
-                </AnimatedButton>
+          
+              <div className="bg-gradient-to-r from-blue-600 to-violet-600 text-white p-4 flex items-center justify-between">
+                <h2 className="font-medium flex items-center gap-2">
+                  <FileText size={18} />
+                  Certificate Preview
+                </h2>
+                <div className="flex gap-2">
+                  <AnimatedButton
+                    onClick={handlePrint}
+                    disabled={isGenerating}
+                    className={`bg-white text-blue-700 hover:bg-gray-100 px-4 py-2 rounded-md flex items-center gap-2 transition-all duration-200 text-sm font-medium ${
+                      isGenerating ? "opacity-70 cursor-not-allowed" : ""
+                    }`}
+                  >
+                    <Printer size={16} />
+                    Print
+                  </AnimatedButton>
+                  <AnimatedButton
+                    onClick={generatePDF}
+                    disabled={isGenerating}
+                    className={`bg-white text-blue-700 hover:bg-gray-100 px-4 py-2 rounded-md flex items-center gap-2 transition-all duration-200 text-sm font-medium ${
+                      isGenerating ? "opacity-70 cursor-not-allowed" : ""
+                    }`}
+                  >
+                    <Download size={16} />
+                    {isGenerating ? "Generating..." : "Download"}
+                  </AnimatedButton>
+                </div>
               </div>
-            </div>
 
-            <div className="p-4 overflow-auto sexy-scrollbar max-h-[70vh]">
-              <div
-                id="certificate-content"
-                ref={contentRef}
-                className="bg-white p-8 shadow-md text-black w-full max-w-[794px] aspect-[21/29.7] relative overflow-hidden mx-auto flex flex-col items-center border border-gray-300"
-                style={{ width: "794px", height: "1123px" }}
-              >
-                {/* Certificate header with gradient */}
-                <div className="absolute top-0 left-0 w-full h-[50px] bg-gradient-to-r from-blue-50 to-violet-50"></div>
-
-                {/* Image and date */}
-                <div className="h-[15%] pt-10 w-full flex justify-between relative z-10">
-                  <div className="h-full">
-                    {image ? (
-                      <div className="relative w-[28mm] h-[28mm]">
-                        <Image
-                          fill
-                          src={image || "/placeholder.svg"}
-                          alt="Company Logo"
-                          className="rounded-full object-cover border-2 border-blue-100 shadow-md"
-                        />
-                      </div>
-                    ) : (
-                      <div className="w-[18mm] h-[18mm] border-2 border-blue-200 rounded-full flex items-center justify-center bg-gray-50 shadow-md">
-                        <Building size={24} className="text-blue-300" />
-                      </div>
-                    )}
-                  </div>
-                  <div className="flex items-end pb-4">
-                    <p className="text-xs font-medium text-gray-600">Date: {formData.date || "___________"}</p>
-                  </div>
+              <div className="p-4 overflow-auto max-h-[70vh]">
+                <div
+                  id="certificate-content"
+                  ref={contentRef}
+                  className="bg-white p-8 shadow-md text-black w-full max-w-[794px] aspect-[21/29.7] relative overflow-hidden mx-auto flex flex-col items-center border border-gray-300"
+                  style={{ width: "794px", height: "1123px" }}
+                >
+                  {renderCertificateTemplate()}
                 </div>
-
-                {/* Certificate content */}
-                <div className="flex flex-col gap-6 mt-4 text-sm">
-                  <h2 className="text-center font-bold text-lg text-blue-800 border-b-2 border-blue-200 pb-2 w-fit mx-auto px-4">
-                    To Whomsoever It May Concern
-                  </h2>
-                  <p className="text-black leading-relaxed">
-                    This certificate of employment confirms that {formData.gender == "male" ? "Mr." : "Ms."}{" "}
-                    <span className="font-medium ">{formData.employeeName || "[Employee Name]"}</span> was a part of our
-                    organization from <span className="font-medium">{formData.joiningDate || "[Joining Date]"}</span> to{" "}
-                    <span className="font-medium ">{formData.lastWorkingDate || "[Last Working Date]"}</span>.{" "}
-                    {pronouns.subject.charAt(0).toUpperCase() + pronouns.subject.slice(1)} held the position of{" "}
-                    <span className="font-medium ">{formData.designation || "[Designation]"}</span> in our company{" "}
-                    <span className="font-medium">{formData.companyName || "[Company Name]"}</span> but also handled
-                    some other departments like{" "}
-                    <span className="font-medium ">{formData.departments || "[Departments]"}</span> whenever it was
-                    required.
-                  </p>
-
-                  <p className="text-black leading-relaxed">
-                    During this tenure,{formData.gender == "male" ? "Mr." : "Ms."}{" "}
-                    <span className="font-medium ">{formData.employeeName || "[Employee Name]"}</span> has shown great
-                    dedication and punctuality. We also approve of {pronouns.possessive} character as an understanding
-                    and helpful team member.
-                  </p>
-
-                  <p className="text-black leading-relaxed">
-                    Moreover, I would like to reflect over {pronouns.object} conduct during {pronouns.object} stay with
-                    us. During {pronouns.object} service {pronouns.subject} has been found sincere, reliable,
-                    trustworthy, sociable, pleasant and open to challenges {pronouns.subject} has a genial temperament
-                    and can efficiently work in a team. All of our staff members are pleased with {pronouns.possessive}{" "}
-                    and feels comfortable in teaming and coordinating with {pronouns.possessive} for the realization of
-                    organizational goals and objectives.
-                  </p>
-
-                  <p className="text-black leading-relaxed">
-                    <span className="font-medium ">{formData.employeeName || "[Employee Name]"}</span> is leaving{" "}
-                    {pronouns.object} job only on of {pronouns.object} own decision and for attempting opportunities
-                    with a better profile. We wish {pronouns.object} all the best in {pronouns.object} future endeavor.
-                    Please feel free to contact us for any more details about the employment of{" "}
-                    <span className="font-medium">{formData.employeeName || "[Employee Name]"}</span>.
-                  </p>
-                </div>
-
-                <div className="mt-10 flex flex-col w-full">
-                  <p className="font-medium text-black">Sincerely,</p>
-                  <p className="font-medium  mt-1">{formData.authorizer || "[Authorizer Name]"}</p>
-                  <div className="">
-                    <p className="text-black">{formData.companyName || "[Company Name]"}</p>
-                    <p className="text-black text-sm">{formData.companyAddress || "[Company Address]"}</p>
-                    <div className="flex w-full justify-between mt-8">
-                      <div className="flex flex-col items-center">
-                        <div className="h-[100px] w-40 border border-dashed border-gray-300 flex items-center justify-center">
-                          {/* Signature placeholder */}
-                       
-                        </div>
-                        <div className="mt-2 w-40">
-                          <p className="text-black text-center border-t border-gray-300 pt-2 text-sm">
-                            Authorizer Signature
-                          </p>
-                        </div>
-                      </div>
-                      <div className="flex flex-col items-center">
-                        <div className="h-[100px] w-40 border border-dashed border-gray-300 flex items-center justify-center">
-                          {/* Stamp placeholder */}
-                        
-                        </div>
-                        <div className="mt-2 w-40">
-                          <p className="text-black text-center border-t border-gray-300 pt-2 text-sm">Company Stamp</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Certificate footer with gradient */}
-                <div className="absolute bottom-0 left-0 w-full h-[80px] bg-gradient-to-r from-blue-50 to-violet-50"></div>
               </div>
-            </div>
+            
           </div>
         </CardHoverEffect>
       </div>
@@ -352,14 +431,27 @@ const PDFGenerator = () => {
                 <FileText size={20} className="text-blue-400" />
                 <span>Certificate Details</span>
               </h2>
-              <p className="text-gray-400 text-sm">Fill in the information to generate your employment certificate</p>
+              <p className="text-gray-400 text-sm">Fill in the information to generate your certificate</p>
+            </div>
+
+            {/* Template selector */}
+            <div className="mb-6">
+              <label className="text-sm font-medium text-gray-300 flex items-center gap-1 mb-2">
+                <Certificate size={16} className="text-blue-400" />
+                Certificate Type
+              </label>
+              <TemplateSelector
+                options={templateOptions}
+                selectedTemplate={selectedTemplate}
+                setSelectedTemplate={setSelectedTemplate}
+              />
             </div>
 
             <div className="mb-6">
               <div className="flex items-center justify-between mb-2">
                 <label className="text-sm font-medium text-gray-300 flex items-center gap-1">
                   <Building size={16} className="text-blue-400" />
-                  Company Logo
+                  Logo
                 </label>
                 <input type="file" accept="image/*" onChange={handleImageChange} className="hidden" id="image-upload" />
               </div>
@@ -383,13 +475,13 @@ const PDFGenerator = () => {
                   className="w-full h-32 border-2 border-dashed border-gray-700 rounded-lg flex flex-col items-center justify-center hover:border-blue-500 transition-all duration-200 bg-gray-800/50"
                 >
                   <Upload size={24} className="text-blue-400 mb-2" />
-                  <span className="text-gray-400 text-sm">Upload Company Logo</span>
+                  <span className="text-gray-400 text-sm">Upload Logo</span>
                 </AnimatedButton>
               )}
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-              {Object.entries(formData).map(([key, val]) => (
+              {getTemplateFields().map((key) => (
                 <div key={key} className="flex flex-col">
                   <label className="text-xs font-medium text-gray-300 mb-1.5 ml-1 flex items-center gap-1">
                     {getFieldIcon(key)}
@@ -398,7 +490,7 @@ const PDFGenerator = () => {
                       .join(" ")
                       .replace(/^\w/, (c) => c.toUpperCase())}
                   </label>
-                  <div className="relative">{renderFormField(key, val)}</div>
+                  <div className="relative">{renderFormField(key, formData[key])}</div>
                 </div>
               ))}
             </div>
@@ -435,5 +527,4 @@ const PDFGenerator = () => {
   )
 }
 
-export default PDFGenerator
-     
+export default Page
