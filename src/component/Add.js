@@ -5,11 +5,11 @@ import jsPDF from "jspdf"
 import html2canvasPro from "html2canvas-pro"
 import Image from "next/image"
 import { Download, Upload, Calendar, FileText, User, Building, Briefcase, Users, MapPin, Printer } from "lucide-react"
-import { BackgroundBeams } from "./ui/background-beams"
-import { CardHoverEffect } from "./ui/card-hover-effect"
-import { AnimatedButton } from "./ui/animated-button"
+import { BackgroundBeams } from "../components/ui/background-beams"
+import { CardHoverEffect } from "../components/ui/card-hover-effect"
+import { AnimatedButton } from "../components/ui/animated-button"
 
-import { HoverBorderGradient } from "./ui/hover-border-gradient"
+import { HoverBorderGradient } from "../components/ui/hover-border-gradient"
 import { cn } from "@/lib/utils"
 
 const PDFGenerator = () => {
