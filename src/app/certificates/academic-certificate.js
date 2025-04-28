@@ -1,7 +1,8 @@
 import Image from "next/image"
 import { Building, GraduationCap } from "lucide-react"
+import CircularText from "@/component/RoundedText"
 
-export const AcademicCertificate = ({ formData, image, pronouns }) => {
+export const AcademicCertificate = ({ formData, image, pronouns ,imageAc}) => {
   return (
     <>
       {/* Certificate header with gradient */}
@@ -73,7 +74,12 @@ export const AcademicCertificate = ({ formData, image, pronouns }) => {
           </div>
 
           <div className="flex flex-col items-center">
-            <div className="h-[100px]"></div>
+            <div className="h-[170px] opacity-70">
+            {/* <div className="w-[42mm] h-[42mm] rounded-full border-2 border-black relative">
+          
+
+            </div> */}
+            </div>
             <div className="w-40 border-t border-gray-300 pt-2">
               <p className="text-black text-center text-sm">Institution Stamp</p>
             </div>

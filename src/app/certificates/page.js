@@ -25,12 +25,12 @@ import {
   BookOpen,
   Layers,
 } from "lucide-react"
-import { BackgroundBeams } from "../../component/ui/background-beams"
-import { CardHoverEffect } from "../../component/ui/card-hover-effect"
-import { AnimatedButton } from "../../component/ui/animated-button"
-import { TextRevealCard } from "../../component/ui/text-reveal-card"
-import { HoverBorderGradient } from "../../component/ui/hover-border-gradient"
-import { TemplateSelector } from "../../component/ui/template-selector"
+import { BackgroundBeams } from "../../components/ui/background-beams"
+import { CardHoverEffect } from "../../components/ui/card-hover-effect"
+import { AnimatedButton } from "../../components/ui/animated-button"
+import { TextRevealCard } from "../../components/ui/text-reveal-card"
+import { HoverBorderGradient } from "../../components/ui/hover-border-gradient"
+import { TemplateSelector } from "../../components/ui/template-selector"
 import { cn } from "@/lib/utils"
 
 // Import certificate templates
@@ -80,6 +80,7 @@ const Page = () => {
   })
 
   const [image, setImage] = useState(null)
+  const [imageAc,setImageAc] = useState(null)
   const [isGenerating, setIsGenerating] = useState(false)
   const [selectedTemplate, setSelectedTemplate] = useState("employment")
 
@@ -116,6 +117,16 @@ const Page = () => {
       const reader = new FileReader()
       reader.onloadend = () => {
         setImage(reader.result)
+      }
+      reader.readAsDataURL(file)
+    }
+  }
+  const handleImageAc = (event) => {
+    const file = event.target.files?.[0]
+    if (file) {
+      const reader = new FileReader()
+      reader.onloadend = () => {
+        setImageAc(reader.result)
       }
       reader.readAsDataURL(file)
     }
@@ -349,7 +360,7 @@ const Page = () => {
       case "training":
         return <TrainingCertificate formData={formData} image={image} pronouns={pronouns} />
       case "academic":
-        return <AcademicCertificate formData={formData} image={image} pronouns={pronouns} />
+        return <AcademicCertificate formData={formData} imageAc={imageAc} image={image} pronouns={pronouns} />
       case "award":
         return <AwardCertificate formData={formData} image={image} pronouns={pronouns} />
       case "participation":
@@ -494,6 +505,38 @@ const Page = () => {
                 </div>
               ))}
             </div>
+            <div className="mb-6 mt-6">
+  {/* <div className="flex items-center justify-between mb-2">
+    <label className="text-sm font-medium text-gray-300 flex items-center gap-1">
+      <Building size={16} className="text-blue-400" />
+      Institution Stamp
+    </label>
+    <input type="file" accept="image/*" onChange={handleImageAc} className="hidden" id="stamp-upload" />
+  </div> */}
+
+  {/* {imageAc ? (
+    <div className="relative w-full h-32 bg-gray-800 rounded-lg overflow-hidden group">
+      <Image fill src={imageAc} alt="Institution Stamp" className="object-contain" />
+      <div className="absolute inset-0 bg-black/0 group-hover:bg-black/40 transition-all duration-300 flex items-center justify-center opacity-0 group-hover:opacity-100">
+        <AnimatedButton
+          onClick={() => document.getElementById("stamp-upload")?.click()}
+          className="bg-blue-600/80 hover:bg-blue-600 p-2 rounded-lg transition-all duration-200 flex items-center gap-2"
+        >
+          <Upload size={16} />
+          <span>Change Stamp</span>
+        </AnimatedButton>
+      </div>
+    </div>
+  ) : (
+    <AnimatedButton
+      onClick={() => document.getElementById("stamp-upload")?.click()}
+      className="w-full h-32 border-2 border-dashed border-gray-700 rounded-lg flex flex-col items-center justify-center hover:border-blue-500 transition-all duration-200 bg-gray-800/50"
+    >
+      <Upload size={24} className="text-blue-400 mb-2" />
+      <span className="text-gray-400 text-sm">Upload Stamp</span>
+    </AnimatedButton>
+  )} */}
+</div>
 
             <div className="mt-8 flex justify-center">
               <AnimatedButton

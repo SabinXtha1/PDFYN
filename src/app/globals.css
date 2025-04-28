@@ -61,6 +61,16 @@
     display: none;
   }
 }
+@font-face {
+  font-family: "Blanka-Regular";
+  src: url("/fonts/Blanka-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+}
+.logo{
+  font-family: "Blanka-Regular", sans-serif;
+  
+}
 /* Next-level sexy scrollbar */
 .sexy-scrollbar::-webkit-scrollbar {
   width: 10px;

@@ -3,11 +3,11 @@
 import { useRef, useState, useEffect } from "react"
 import html2canvasPro from "html2canvas-pro"
 import { Download, FileText, User,Printer } from "lucide-react"
-import { BackgroundBeams } from "../../component/ui/background-beams"
-import { CardHoverEffect } from "../../component/ui/card-hover-effect"
-import { AnimatedButton } from "../../component/ui/animated-button"
+import { BackgroundBeams } from "../../components/ui/background-beams"
+import { CardHoverEffect } from "../../components/ui/card-hover-effect"
+import { AnimatedButton } from "../../components/ui/animated-button"
 
-import { HoverBorderGradient } from "../../component/ui/hover-border-gradient"
+import { HoverBorderGradient } from "../../components/ui/hover-border-gradient"
 import { cn } from "@/lib/utils"
 
 const Page = () => {

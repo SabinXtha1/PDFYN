@@ -59,16 +59,14 @@ const Navbar = () => {
           transition={{ duration: 0.3 }}
         >
           <motion.a
-            href="#"
+            href="/"
             className="flex items-center gap-2"
             initial={{ scale: 1 }}
             animate={{ scale: isScrolled ? 0.9 : 1 }}
             transition={{ duration: 0.3 }}
           >
-            <div className="relative w-8 h-8 bg-gradient-to-br from-blue-600 to-violet-600 rounded-full flex items-center justify-center">
-              <FileText size={16} className="text-white" />
-            </div>
-            <span className="text-white font-bold text-xl">CertifyPro</span>
+           
+            <span className=" text-white text-2xl  logo">PDFBY</span>
           </motion.a>
 
           {/* Desktop Navigation */}
