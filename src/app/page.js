@@ -1,5 +1,6 @@
 
-import Features from '@/component/Feature'
+import { Feature } from '@/component/NewFeat'
+
 import { Cover } from '@/components/ui/cover'
 import { HeroParallax } from '@/components/ui/hero-parallax'
 import React from 'react'
@@ -8,14 +9,11 @@ const page = () => {
   return (
     <div className='bg-black w-full'>
     <HeroParallax products={products}/>
+    
     <div className='w-full flex justify-center'>
 
-    <Features/>
-    </div>
-    <div>
-    <h1 className="text-4xl md:text-4xl lg:text-6xl font-semibold max-w-7xl mx-auto text-center mt-6 relative z-20 h-[300px] py-6 bg-clip-text  bg-gradient-to-b text-white from-neutral-800 via-neutral-700 to-neutral-700 dark:from-neutral-800 dark:via-white dark:to-white">
-        Build amazing Certificate with Your & Company Name <br /> at <Cover>warp speed</Cover>
-      </h1>
+     <Feature/>
+    
     </div>
     </div>
   )

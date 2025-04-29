@@ -66,7 +66,7 @@ const Navbar = () => {
             transition={{ duration: 0.3 }}
           >
            
-            <span className=" text-white text-2xl  logo">PDFBY</span>
+            <span className=" text-white text-2xl  logo">PDFYN</span>
           </motion.a>
 
           {/* Desktop Navigation */}
