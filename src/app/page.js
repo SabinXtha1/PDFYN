@@ -1,5 +1,6 @@
 
 import { Feature } from '@/component/NewFeat'
+import PaymentMethods from '@/component/paymentMethod'
 
 import { Cover } from '@/components/ui/cover'
 import { HeroParallax } from '@/components/ui/hero-parallax'
@@ -15,6 +16,7 @@ const page = () => {
      <Feature/>
     
     </div>
+    <PaymentMethods/>
     </div>
   )
 }
