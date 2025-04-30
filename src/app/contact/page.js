@@ -86,7 +86,7 @@ export default function ContactPage() {
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.5, delay: 0.2 }}
           >
-            Let's Start A Project Together
+            Let&apos;s Start A Project Together
           </motion.h1>
         </motion.div>
 
@@ -199,7 +199,7 @@ export default function ContactPage() {
                
                 />
                 <p className='p-4 opacity-70 font-serif font-extralight'>
-                  My inbox is always open, Whether you have a project or just want to say Hi. I would love to hear from you. Feel free to contact me and I'll get back to you.
+                  My inbox is always open, Whether you have a project or just want to say Hi. I would love to hear from you. Feel free to contact me and I&apos;ll get back to you.
                 </p>
               </div>
               <div className="flex gap-4 mt-4">
