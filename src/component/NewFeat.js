@@ -61,7 +61,7 @@ export function Feature() {
   }
 
   return (
-    <section ref={sectionRef} className="container space-y-16 p-10 relative overflow-hidden flex flex-col justify-center">
+    <section ref={sectionRef} className="container space-y-16 p-10 relative overflow-hidden flex flex-col justify-center ">
       
       {/* Section heading with animation */}
       <motion.div
@@ -95,14 +95,14 @@ export function Feature() {
 
       {/* Features grid with staggered animation */}
       <motion.div
-        className="mx-auto grid max-w-5xl grid-cols-1 gap-8 md:grid-cols-2 place-items-center text-white text-center justify-center items-center"
+        className="mx-auto grid max-w-5xl grid-cols-1 gap-8 lg:grid-cols-2 place-items-center text-white text-center justify-center items-center"
         variants={containerVariants}
         initial="hidden"
         animate={isInView ? "visible" : "hidden"}
       >
         {features.map((feature, index) => (
           <motion.div key={index} variants={itemVariants} className="w-full">
-            <CardSpotlight className="flex flex-col items-center w-[300px] md:w-[500px] lg:w-[100%] justify-center gap-6 p-6 min-h-[280px]">
+            <CardSpotlight className="flex flex-col items-center min-w-[100px] md:w-[500px] lg:w-[100%] justify-center gap-6 p-6 min-h-[280px]">
               <motion.div
                 initial={{ scale: 0.8, opacity: 0 }}
                 animate={isInView ? { scale: 1, opacity: 1 } : { scale: 0.8, opacity: 0 }}

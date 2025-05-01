@@ -51,7 +51,9 @@ export async function POST(req) {
           product_delivery_charge: "0",
           success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/success?method=esewa`,
           failure_url: `${process.env.NEXT_PUBLIC_BASE_URL}`,
-          signed_field_names: "total_amount,transaction_uuid,product_code",
+          signed_field_names:
+  "amount,tax_amount,total_amount,transaction_uuid,product_code,product_service_charge,product_delivery_charge,success_url,failure_url"
+,
         };
 
         const signatureString = `total_amount=${esewaConfig.total_amount},transaction_uuid=${esewaConfig.transaction_uuid},product_code=${esewaConfig.product_code}`;

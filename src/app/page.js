@@ -1,90 +1,94 @@
+"use client";
+import BuyMeCoffee from "@/component/buymecoffee";
+import { Feature } from "@/component/NewFeat";
 
-import { Feature } from '@/component/NewFeat'
-import PaymentMethods from '@/component/paymentMethod'
+import { HeroParallax } from "@/components/ui/hero-parallax";
+import axios from "axios";
 
-import { Cover } from '@/components/ui/cover'
-import { HeroParallax } from '@/components/ui/hero-parallax'
-import React from 'react'
+import React, { useEffect } from "react";
 
-const page = () => {
+const Page = () => {
+   useEffect(()=>{
+    const fetchuser=async()=>{
+
+      const data =await axios.get('/api/userdata')
+      console.log(data.data.data);
+      data.data.data.map((user,id)=>{
+        console.log(user.name,user.amount,user.id,id)
+      })
+    }
+    fetchuser()
+       
+   },[])
+
   return (
-    <div className='bg-black w-full'>
-    <HeroParallax products={products}/>
-    
-    <div className='w-full flex justify-center'>
+    <div className="bg-black ">
+      <div>
+        <HeroParallax products={products} />
 
-     <Feature/>
-    
+        <div className="w-full flex justify-center overflow-hidden">
+          <Feature />
+        </div>
+        <BuyMeCoffee />
+      </div>
     </div>
-    <PaymentMethods/>
-    </div>
-  )
-}
+  );
+};
 
-export default page
+export default Page;
 
 export const products = [
   {
     title: "Employee Certificate",
     link: "/certificates",
-    thumbnail:
-      "/n1.png",
+    thumbnail: "/n1.png",
   },
   {
     title: "Certificate of Achievement",
     link: "/cert",
-    thumbnail:
-      "/n2.png",
+    thumbnail: "/n2.png",
   },
   {
     title: "Domain Registration Letter",
     link: "/nepal-domain",
-    thumbnail:
-      "/n3.png",
+    thumbnail: "/n3.png",
   },
 
   {
     title: "Certificate of Appreciation",
     link: "/certificates",
-    thumbnail:
-      "/n4.png",
+    thumbnail: "/n4.png",
   },
   {
     title: "Participation Certificate",
     link: "/certificates",
-    thumbnail:
-      "n5.png",
+    thumbnail: "n5.png",
   },
   {
     title: "Mooooo",
     link: "/certificates",
-    thumbnail:
-      "/N6.png",
+    thumbnail: "/N6.png",
   },
-  
+
   {
     title: "Profession Certificate",
     link: "/certificates",
-    thumbnail:
-      "/N8.png",
+    thumbnail: "/N8.png",
   },
 
   {
     title: "Membership Certificate",
     link: "/certificates",
-    thumbnail:
-      "/N9.png",
+    thumbnail: "/N9.png",
   },
   {
     title: "Rooooo",
     link: "/certificates",
-    thumbnail:
-      "N10.png",
+    thumbnail: "N10.png",
   },
   {
     title: "Edit Sec",
     link: "/certificates",
-    thumbnail:
-      "N11.png",
+    thumbnail: "N11.png",
   },
-]
+];

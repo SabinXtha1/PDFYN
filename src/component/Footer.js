@@ -40,7 +40,7 @@ export default function ModernFooter() {
   }
 
   return (
-    <footer className="bg-black text-gray-100 border-t mt-20 pt-10">
+    <footer className="bg-black text-gray-100 border-t  pt-10">
       <motion.div
         className="container mx-auto px-4 py-12"
         initial="hidden"

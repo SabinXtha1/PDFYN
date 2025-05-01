@@ -8,11 +8,34 @@ import { CheckCircle, ArrowLeft } from "lucide-react"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Suspense } from "react"
+import axios from "axios"
 
 function PaymentSuccessContent() {
   const searchParams = useSearchParams()
   const method = searchParams.get("method")
-
+  useEffect(() => {
+    let isMounted = true
+    const handleapi = async () => {
+      try {
+        const amount = localStorage.getItem("amount")
+        const name = localStorage.getItem("username")
+  
+        const res = await axios.post("/api/userdata", { amount, name })
+        if (isMounted && res.status === 200) {
+          localStorage.removeItem("amount")
+          localStorage.removeItem("username")
+        }
+      } catch (e) {
+        console.error(e)
+      }
+    }
+  
+    handleapi()
+  
+    return () => {
+      isMounted = false
+    }
+  }, [])
   useEffect(() => {
     if (method) {
       console.log(`Payment successful via ${method}`)
