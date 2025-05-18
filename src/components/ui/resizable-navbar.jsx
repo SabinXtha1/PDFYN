@@ -36,6 +36,7 @@ const Navbar = () => {
 
   const navLinks = [
     { name: "Home", href: "/", icon: <Home size={18} /> },
+    { name: "PDF BIND", href: "/pdf-merge", icon: <FileText size={18} /> },
     { name: "Certificates", href: "/certificates", icon: <FileText size={18} /> },
     { name: "Domain CL", href: "/nepal-domain", icon: <FileText size={18} /> },
     { name: "Contact", href: "/contact", icon: <Mail size={18} /> },
@@ -45,7 +46,7 @@ const Navbar = () => {
     <>
       <motion.header
         className={cn(
-          "fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-black/100 backdrop-blur-md border-b border-black/80 ",
+          "fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-black/100 backdrop-blur-md border-b border-b-white/20 border-black/80 ",
           isScrolled ? "bg-black/80 backdrop-blur-md border-b border-black/80" : "border-black/80",
         )}
         initial={{ y: 0 }}

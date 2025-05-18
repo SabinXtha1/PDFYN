@@ -59,28 +59,29 @@ export const products = [
     link: "/certificates",
     thumbnail: "/n4.png",
   },
-  {
-    title: "Participation Certificate",
+   {
+    title: "Membership Certificate",
     link: "/certificates",
-    thumbnail: "n5.png",
+    thumbnail: "/N9.png",
   },
   {
     title: "Mooooo",
     link: "/certificates",
     thumbnail: "/N6.png",
   },
-
+  
   {
     title: "Profession Certificate",
     link: "/certificates",
     thumbnail: "/N8.png",
   },
-
   {
-    title: "Membership Certificate",
-    link: "/certificates",
-    thumbnail: "/N9.png",
+    title: "PDF Merge",
+    link: "/pdf-merge",
+    thumbnail: "n5.png",
   },
+
+ 
   {
     title: "Rooooo",
     link: "/certificates",

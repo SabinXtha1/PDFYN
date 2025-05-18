@@ -129,7 +129,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "C:\\Users\\SABIN\\Desktop\\pdfyn\\src\\generated\\prisma",
+      "value": "C:\\project\\pdfyn\\PDFYN\\src\\generated\\prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -143,7 +143,7 @@ const config = {
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "C:\\Users\\SABIN\\Desktop\\pdfyn\\prisma\\schema.prisma",
+    "sourceFilePath": "C:\\project\\pdfyn\\PDFYN\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
